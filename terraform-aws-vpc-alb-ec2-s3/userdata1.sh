@@ -1,25 +1,41 @@
 #!/bin/bash
+# ---------------------------------------------
+# User Data Script for Terraform Project - Server 1
+# OS      : Amazon Linux 2023
+# Purpose : Install Apache and display instance details
+# Author  : Ghanashyam
+# ---------------------------------------------
+
 set -e
 
-# Update and install Apache (httpd on Amazon Linux)
+# Update system packages
 dnf update -y
+
+# Install Apache (httpd)
 dnf install -y httpd
 
 # Enable and start Apache
 systemctl enable httpd
 systemctl start httpd
 
-# Fetch EC2 metadata
-INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+# ---------------- IMDSv2 TOKEN ----------------
+# Fetch IMDSv2 token (more secure than IMDSv1)
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+# Fetch EC2 metadata using IMDSv2
+INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+  -s http://169.254.169.254/latest/meta-data/instance-id)
+
 HOSTNAME=$(hostname)
 
-# Create simple static page
+# ---------------- HTML PAGE ----------------
 cat <<EOF > /var/www/html/index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Server 1 | Terraform Project</title>
+  <title>Terraform Server 1</title>
 
   <style>
     body {
@@ -30,8 +46,17 @@ cat <<EOF > /var/www/html/index.html
       padding-top: 70px;
     }
 
+    /* Faster color animation */
+    @keyframes colorChange {
+      0%   { color: #ef4444; }
+      25%  { color: #22c55e; }
+      50%  { color: #3b82f6; }
+      75%  { color: #a855f7; }
+      100% { color: #ef4444; }
+    }
+
     h1 {
-      color: #22c55e;
+      animation: colorChange 1s infinite; /* FAST animation */
       margin-bottom: 10px;
     }
 
@@ -50,7 +75,7 @@ cat <<EOF > /var/www/html/index.html
     }
 
     .badge {
-      color: #3b82f6;
+      color: #22c55e;
       font-weight: bold;
     }
   </style>
@@ -60,10 +85,12 @@ cat <<EOF > /var/www/html/index.html
   <div class="card">
     <h1>Terraform Project Server-1</h1>
     <p>Welcome to <strong>Ghanashyam’s Terraform Project</strong></p>
+
     <div class="info">Instance ID: <span class="badge">$INSTANCE_ID</span></div>
     <div class="info">Hostname: <span class="badge">$HOSTNAME</span></div>
+
     <p style="margin-top:20px; font-size:14px;">
-      Auto-deployed using Terraform & EC2 user-data
+      Deployed automatically using Terraform & EC2 User-Data
     </p>
   </div>
 </body>
