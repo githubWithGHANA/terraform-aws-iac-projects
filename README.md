@@ -1,5 +1,7 @@
-# Terraform AWS Infrastructure as Code Projects
+<div align="center">
 
+# Terraform AWS Infrastructure as Code Projects
+</div>
 <div align="center">
 
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-blueviolet?style=flat-square)
@@ -25,6 +27,7 @@ The goal of this repository is to **practice, showcase, and document AWS + Terra
 
 ```text
 terraform-aws-iac-projects/
+├── terraform-aws-modular-infrastructure/
 ├── terraform-aws-vpc-alb-ec2-s3/     
 ├── terraform-aws-rds/              
 └── README.md
