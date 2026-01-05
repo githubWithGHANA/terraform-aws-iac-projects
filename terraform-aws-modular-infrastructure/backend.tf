@@ -5,11 +5,11 @@ terraform {
     # COMMON BACKEND SETTINGS (USED IN ALL ENVIRONMENTS)
     # =========================================================
 
-    bucket         = "mycompany-terraform-states-12345"   # MUST be globally unique
+    bucket         = "aws-terraform-remote-state-bucket"   # MUST be globally unique
     region         = "ap-south-1"
     dynamodb_table = "terraform-locks"                    # State locking
     encrypt        = true                                 # Enable SSE encryption
-    key = "dev/terraform.tfstate"  #bassed on your need
+    key = "dev/terraform.tfstate"                         #bassed on your state
 
     # =========================================================
     # ENVIRONMENT-SPECIFIC STATE KEYS

@@ -31,18 +31,19 @@ resource "aws_security_group" "web_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  cidr_blocks = var.allowed_http_cidr
+}
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+ingress {
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = var.allowed_ssh_cidr
+}
+
 
   egress {
     from_port   = 0
@@ -64,11 +65,12 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  cidr_blocks = var.allowed_http_cidr
+}
+
 
   egress {
     from_port   = 0
@@ -97,5 +99,6 @@ module "s3" {
   source     = "./modules/s3"
   name       = var.name
   tags       = var.tags
-  versioning = true
+  versioning = var.enable_s3_versioning
 }
+
