@@ -11,6 +11,7 @@
 ![GitHub](https://img.shields.io/github/license/githubWithGHANA/terraform-aws-iac-projects?style=flat-square)
 
 </div>
+
 ## 📌 Project Overview
 This project demonstrates a **production-style, modular Terraform architecture** on AWS using best practices. It provisions a complete infrastructure stack with **environment separation (dev / test / prod)**, **remote state management**, **state locking**, and **clean module boundaries**.
 
