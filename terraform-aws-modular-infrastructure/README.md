@@ -55,6 +55,13 @@ This project demonstrates a **production-style, modular Terraform architecture**
   - DynamoDB state locking
 
 ---
+## 📊 Architecture Diagram
+
+This diagram illustrates the Terraform-provisioned AWS infrastructure:
+
+<img width="1400" height="788" alt="image" src="https://github.com/user-attachments/assets/5b1964fb-6e9b-49fc-a78d-158eb42d950f" />
+
+---
 
 ## 📁 Project Layout
 
